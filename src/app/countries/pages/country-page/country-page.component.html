@@ -1,1 +1,21 @@
-<h4 class="mt-3">Info sobre el pais</h4>
+<div *ngIf="!currentCountry; else info" class="alert alert-warning">
+  Such country does not exist
+</div>
+
+<ng-template #info>
+  <h4 class="mt-3">Details about {{currentCountry?.name?.common}}</h4>
+  <div class="row">
+    <div class="col-2 mt-4">
+      <img [src]="currentCountry?.flags?.svg" [alt]="currentCountry?.name?.common" style="width: 100px;">
+    </div>
+    <div class="col mt-3">
+      <h4>Capital: {{currentCountry?.capital}}</h4>
+      <p>{{currentCountry?.flags?.alt}}</p>
+      <p>Population: {{currentCountry?.population | number}}</p>
+      <h5>Borders</h5>
+      <div *ngFor="let border of currentCountry?.borders">
+        {{this.border}}
+      </div>
+    </div>
+  </div>
+</ng-template>
