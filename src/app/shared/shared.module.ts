@@ -1,33 +1,31 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from './sidebar/sidebar.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { RouterModule } from '@angular/router';
 import { SearchBoxComponent } from './components/search-box/search-box.component';
-import { CountriesModule } from '../countries/countries.module';
 
 
 
 @NgModule({
   declarations: [
-    SidebarComponent,
     AboutPageComponent,
-    HomePageComponent,
     ContactComponent,
+    HomePageComponent,
+    SidebarComponent,
     SearchBoxComponent
   ],
   imports: [
     CommonModule,
-    RouterModule,
-    CountriesModule,
+    RouterModule
   ],
   exports: [
-    SidebarComponent,
-    HomePageComponent,
     AboutPageComponent,
     ContactComponent,
+    HomePageComponent,
+    SidebarComponent,
     SearchBoxComponent
   ]
 })

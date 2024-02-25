@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styles: ``
 })
 export class ByCountryComponent {
-
+  searchCountry(search: string): void {
+    console.log("Desde country:", search)
+  }
 }

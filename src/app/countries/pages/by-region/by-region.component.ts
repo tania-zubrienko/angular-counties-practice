@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styles: ``
 })
 export class ByRegionComponent {
-
+  searchRegion(search: string): void {
+    console.log("desde Region", search)
+  }
 }
