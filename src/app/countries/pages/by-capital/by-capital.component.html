@@ -1,4 +1,5 @@
 <h4 class="">Buscar por Capital</h4>
-<shared-search-box (onValue)="searchByCapital($event)" [placeholder]="'Buscar por capital'"></shared-search-box>
+<shared-search-box (onDebounce)="searchByCapital($event)"  [placeholder]="'Buscar por capital'" [searchValue]="lastSearch!"></shared-search-box>
 <hr>
 <countries-table [countries]="countries"></countries-table>
+<div class="text-center"><app-loader *ngIf="isLoaded"></app-loader></div>

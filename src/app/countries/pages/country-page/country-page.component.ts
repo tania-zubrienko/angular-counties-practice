@@ -14,6 +14,7 @@ export class CountryPageComponent implements OnInit {
   @Input()
   currentCountry?: Country | null
 
+  private isLoaded: boolean = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private countryService: CountryService
@@ -25,5 +26,6 @@ export class CountryPageComponent implements OnInit {
         switchMap(({ id }) => this.countryService.byCountry(id))
       )
       .subscribe(country => this.currentCountry = country[0])
+      this.isLoaded = true
   }
 }

@@ -1,4 +1,5 @@
 <h4>Buscar por País</h4>
-<shared-search-box [placeholder]="'Buscar por país'" (onValue)="searchCountry($event)"></shared-search-box>
+<shared-search-box [placeholder]="'Buscar por país'" (onDebounce)="searchCountry($event)" [searchValue]="lastSearch!"></shared-search-box>
 <hr>
+<div class="text-center"><app-loader *ngIf="isLoaded"></app-loader></div>
 <countries-table [countries]="countries"></countries-table>

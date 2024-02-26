@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, of } from 'rxjs';
-import { Country } from '../interfaces/country';
+import { Observable, catchError, of, tap } from 'rxjs';
+import { Country, Region } from '../interfaces/country';
+import { SearchCache } from '../interfaces/cache.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -9,26 +10,46 @@ import { Country } from '../interfaces/country';
 export class CountryService {
 
   private baseUrl: string = 'https://restcountries.com/v3.1/'
+  public searchCache : SearchCache = {
+    capital: {search:'', countries: []},
+    country: {search:'', countries: []},
+    region: {region:'', countries: []}
+  }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { this.loadFromStorage() }
 
-  byCapital(capital: string): Observable<Country[]> {
-
-    const url = `${this.baseUrl}capital/${capital}`
-    return this.http.get<Country[]>(url).pipe(catchError(err => of([])))
+  private searchResults(url:string) : Observable<Country[]>{
+  return this.http.get<Country[]>(url).pipe(catchError(err => of([])))
+  }
+  private saveToStorage(){
+    localStorage.setItem ('searchCache' , JSON.stringify(this.searchCache))
+  }
+  private loadFromStorage(){
+    if(!localStorage.getItem('searchCache')) return
+    this.searchCache = JSON.parse( localStorage.getItem('searchCache')! )
+  }
+  byCapital(search: string): Observable<Country[]> {
+    const url = `${this.baseUrl}capital/${search}`
+    return this.searchResults(url).pipe(
+      tap( countries => this.searchCache.capital = {search, countries}),
+      tap(()=>this.saveToStorage())
+      )
 
   }
 
-  byCountry(country: string): Observable<Country[]> {
-
-    const url = `${this.baseUrl}/name/${country}`
-    return this.http.get<Country[]>(url).pipe(catchError(err => of([])))
+  byCountry(search: string): Observable<Country[]> {
+    const url = `${this.baseUrl}name/${search}`
+    return this.searchResults(url).pipe(
+      tap( countries => this.searchCache.country = {search, countries}),
+      tap(()=>this.saveToStorage())
+      )
 
   }
 
-  byRegion(region: string): Observable<Country[]> {
-
+  byRegion(region: Region): Observable<Country[]> {
     const url = `${this.baseUrl}region/${region}`
-    return this.http.get<Country[]>(url).pipe(catchError(err => of([])))
+    return this.searchResults(url).pipe(
+      tap( countries => this.searchCache.region = {region, countries}),
+      tap(()=>this.saveToStorage()))
   }
 }

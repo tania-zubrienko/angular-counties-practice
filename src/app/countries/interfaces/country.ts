@@ -38,6 +38,7 @@ export interface Country {
   postalCode: PostalCode;
 }
 
+export type Region = "Americas"| "Europe"| "Oceania"| "Asia"| "Africa" | ""
 export interface CapitalInfo {
   latlng: number[];
 }

@@ -7,6 +7,7 @@ import { Country } from '../../interfaces/country';
   styleUrl: './table.component.css'
 })
 export class TableComponent {
+
   @Input()
   countries: Country[] = []
 
